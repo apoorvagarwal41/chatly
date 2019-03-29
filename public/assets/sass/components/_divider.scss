@@ -1,0 +1,13 @@
+.divider {
+  display: block;
+  height: 2px;
+  background: #8abde6;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  width: 100%;
+
+  &--fade {
+    background: linear-gradient(to right, #8abde6, #0000);
+  }
+}

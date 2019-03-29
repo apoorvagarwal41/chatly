@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/style/style.css" />
+    <script src="./assets/js/components/modal.js"></script>
+    <title>Chatly</title>
+  </head>
+  <body>
+    <div class="chat-wrapper">
+      <uc-modal opened="true">
+        <h1 slot="title" id="title">Enter Your Details</h1>
+        <div>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            class="chatly-input"
+          />
+        </div>
+        <div slot="actions">
+          <button id="okay" class="btn">Okay</button>
+          <button id="closeButton" class="btn btn--red ml-2">cancel</button>
+        </div>
+      </uc-modal>
+      <div class="nav">
+        <div class="left">
+          <span class="nav__title">Chatly ✉</span>
+        </div>
+        <div class="right">
+          <div class="status"></div>
+          <button class="btn btn--red ml-2" id="changeinfo">Change Info</button>
+        </div>
+      </div>
+      <div class="message-list"></div>
+      <div class="message-bar">
+        <input type="text" placeholder="Enter Message" id="messageInput" />
+        <button class="btn ml-2" id="sendButton">Send Message</button>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./assets/js/main.js"></script>
+  </body>
+</html>
