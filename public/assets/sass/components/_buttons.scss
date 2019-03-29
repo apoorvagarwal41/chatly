@@ -11,7 +11,7 @@
   font-family: 'Montserrat', serif;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #222;
+  color: #fff;
 
   &:hover {
     transform: translateY(-0.2rem);
@@ -49,6 +49,5 @@
 
   &--red {
     background: #e05151;
-    color: white;
   }
 }

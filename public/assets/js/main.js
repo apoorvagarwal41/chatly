@@ -8,23 +8,6 @@ const msgList = $('.message-list')
 const changeInfoBtn = $('#changeinfo')
 const changeInfoModal = document.querySelector('uc-modal')
 
-changeInfoModal.addEventListener('accept', function(e) {
-  const name = $('uc-modal input').val()
-  socket.emit('user-info', { name })
-  changeStatus(name)
-})
-
-changeInfoBtn.on('click', function(e) {
-  changeInfoModal.setAttribute('opened', true)
-})
-
-$('uc-modal #okay').on('click', e => {
-  changeInfoModal.okay()
-})
-$('uc-modal #closeButton').on('click', e => {
-  changeInfoModal.decline()
-})
-
 // UTILITY FUNCTIONS
 const changeStatus = name => {
   const statusEl = $('.status')
@@ -70,15 +53,17 @@ const receiveMessage = (msg, senderName, timestamp) => {
   scrollToBottom()
 }
 
-const addNotfication = name => {
+const addNotfication = msg => {
   const notificationEl = `<div class="notificaiton">
           <span>
-            ℹ ${name} joined the chat.
+            ${msg}
           </span>
           </div>`
   msgList.append(notificationEl)
   scrollToBottom()
 }
+
+// DOM LISTENERS
 
 msgContainer.keyup(function(e) {
   if (e.keyCode == 13) {
@@ -92,12 +77,33 @@ sendButton.addEventListener('click', e => {
   sendMessage(msg)
 })
 
-// SOCKET CONFIGURATION
+changeInfoBtn.on('click', function(e) {
+  changeInfoModal.setAttribute('opened', true)
+})
+
+$('uc-modal #okay').on('click', e => {
+  changeInfoModal.okay()
+})
+
+$('uc-modal #closeButton').on('click', e => {
+  changeInfoModal.decline()
+})
+
+changeInfoModal.addEventListener('accept', function(e) {
+  const name = $('uc-modal input').val()
+  socket.emit('user-info', { name })
+  changeStatus(name)
+})
+// SOCKET LISTENERS
 
 socket.on('reply', data => {
   receiveMessage(data.message, data.userInfo.name, data.timestamp)
 })
 
 socket.on('new-connection', data => {
-  addNotfication(data.name)
+  addNotfication(`${data.name} has joined the chat`)
+})
+
+socket.on('user-disconnect', data => {
+  addNotfication(`${data.name} has left the chat`)
 })

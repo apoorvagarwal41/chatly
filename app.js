@@ -14,6 +14,7 @@ const botInfo = {
 // SOCKET CONFIGURATION
 io.on('connection', function(socket) {
   let userInfo
+
   socket.on('chat-message', msg => {
     socket.broadcast.emit('reply', {
       message: msg,
@@ -21,6 +22,7 @@ io.on('connection', function(socket) {
       timestamp: moment().format('h:mm a')
     })
   })
+
   socket.on('user-info', data => {
     userInfo = data
     socket.broadcast.emit('new-connection', userInfo)
@@ -30,8 +32,13 @@ io.on('connection', function(socket) {
       timestamp: moment().format('h:mm a')
     })
   })
+
   socket.on('ask-bot', question => {
     socket.emit('bot-reply', 'Heyy there')
+  })
+
+  socket.on('disconnect', function() {
+    socket.broadcast.emit('user-disconnect', userInfo)
   })
 })
 
