@@ -1,21 +1,33 @@
-// SOCKET CONNECTION
 var socket = io()
 
+// =======================================
 // DOM CONSTANTS
+// =======================================
 const sendButton = document.querySelector('#sendButton')
 const msgContainer = $('#messageInput')
 const msgList = $('.message-list')
 const changeInfoBtn = $('#changeinfo')
 const changeInfoModal = document.querySelector('uc-modal')
 
+// =======================================
 // UTILITY FUNCTIONS
-const changeStatus = name => {
+// =======================================
+const changeStatus = connectToServer => {
+  const name = $('uc-modal input').val()
   const statusEl = $('.status')
-  if (name) {
+  if (name && connectToServer) {
+    if (!socket.connected) {
+      socket.open()
+    }
+    socket.emit('user-info', { name })
     statusEl.text(name)
     statusEl.css('display', 'block')
+    statusEl.removeClass('disconnected')
+    $('#disconnectBtn').css('display', 'block')
+    $('#reconnectBtn').css('display', 'none')
   } else {
-    statusEl.css('display', 'none')
+    statusEl.addClass('disconnected')
+    $('#disconnectBtn').css('display', 'none')
   }
 }
 
@@ -63,7 +75,9 @@ const addNotfication = msg => {
   scrollToBottom()
 }
 
+// =======================================
 // DOM LISTENERS
+// =======================================
 
 msgContainer.keyup(function(e) {
   if (e.keyCode == 13) {
@@ -90,11 +104,22 @@ $('uc-modal #closeButton').on('click', e => {
 })
 
 changeInfoModal.addEventListener('accept', function(e) {
-  const name = $('uc-modal input').val()
-  socket.emit('user-info', { name })
-  changeStatus(name)
+  changeStatus(true)
 })
+
+$('#disconnectBtn').click(function(e) {
+  socket.close()
+  $('#reconnectBtn').css('display', 'block')
+  changeStatus(false)
+})
+
+$('#reconnectBtn').click(function(e) {
+  changeStatus(true)
+})
+
+// =======================================
 // SOCKET LISTENERS
+// =======================================
 
 socket.on('reply', data => {
   receiveMessage(data.message, data.userInfo.name, data.timestamp)

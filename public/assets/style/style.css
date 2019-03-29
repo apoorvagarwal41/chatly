@@ -71,6 +71,8 @@ body {
       display: inline-block;
       margin-left: 1.5rem;
       font-family: inherit; }
+    .nav .status.disconnected:after {
+      background: #c33326; }
 
 .chatly-input {
   display: inline-block;
@@ -117,7 +119,7 @@ body {
       background: #e1e1e1;
       color: black;
       border-radius: 2rem;
-      box-shadow: 0rem 0.7rem 2.5rem rgba(0, 0, 0, 0.2); }
+      box-shadow: 0rem 0.2rem 2.5rem rgba(0, 0, 0, 0.3); }
 
 .chat-msg {
   display: flex;

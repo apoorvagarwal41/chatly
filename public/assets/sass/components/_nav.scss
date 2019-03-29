@@ -27,5 +27,8 @@
       margin-left: 1.5rem;
       font-family: inherit;
     }
+    &.disconnected:after {
+      background: rgb(195, 51, 38);
+    }
   }
 }
