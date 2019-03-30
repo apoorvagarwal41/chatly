@@ -1,5 +1,6 @@
 var socket = io()
 const botName = 'tiger'
+
 // =======================================
 // DOM CONSTANTS
 // =======================================
@@ -33,17 +34,17 @@ const changeStatus = connectToServer => {
 
 const scrollToBottom = () => {
   const scrollPosition = $('.message-list')[0].scrollHeight
-  console.log('position', scrollPosition)
   $('.message-list').scrollTop(scrollPosition)
 }
 
 const sendMessage = msg => {
-  const chatMsgEl = `<div class="chat-msg">
-  <div>
-  <div><span class="senderName">You</span></div>
-  ${msg}
-  <div><span class="timestamp">${moment().format('h:mm a')}</span></div>
-  </div>
+  const chatMsgEl = `  
+  <div class="chat-msg">
+    <div>
+      <div><span class="senderName">You</span></div>
+      ${msg}
+      <div><span class="timestamp">${moment().format('h:mm a')}</span></div>
+    </div>
   </div>`
   msgList.append(chatMsgEl)
   msgContainer.val('')
@@ -57,13 +58,14 @@ const sendMessage = msg => {
 }
 
 const receiveMessage = (msg, senderName, timestamp) => {
-  const chatMsgEl = `<div class="chat-msg other">
-          <div>
-            <div><span class="senderName">${senderName}</span></div>
-            ${msg}
-            <div><span class="timestamp">${timestamp}</span></div>
-          </div>
-        </div>`
+  const chatMsgEl = `
+    <div class="chat-msg other">
+      <div>
+        <div><span class="senderName">${senderName}</span></div>
+        ${msg}
+        <div><span class="timestamp">${timestamp}</span></div>
+      </div>
+    </div>`
   msgList.append(chatMsgEl)
   scrollToBottom()
 }
@@ -93,12 +95,14 @@ const queryCheckers = {
   ipl: msg => msg.includes('ipl') || msg.includes('temperature'),
   election: msg => msg.includes('election') || msg.includes('lok'),
   changeName: msg => msg.includes('call you') || msg.includes('change name'),
+  movies: msg => msg.includes('movies'),
   greeting: msg =>
     msg.includes('hey') || msg.includes('hello') || msg.includes('hi')
 }
 
 const botRequest = msg => {
   let queryType
+
   //CALCULATING QUERY TYPE
   for (var key in queryCheckers) {
     const match = queryCheckers[key](msg)
@@ -107,12 +111,12 @@ const botRequest = msg => {
       break
     }
   }
+
   // FOR WEATHER QUERY
   if (queryType == 'weather' && navigator.geolocation) {
     // FETCHING LOCATION
     navigator.geolocation.getCurrentPosition(
       ({ coords: { longitude, latitude } }) => {
-        console.log(latitude, longitude)
         socket.emit('bot-request', {
           type: queryType,
           data: {
@@ -124,6 +128,7 @@ const botRequest = msg => {
     )
     return
   }
+
   socket.emit('bot-request', {
     type: queryType
   })
@@ -199,7 +204,6 @@ socket.on('user-disconnect', data => {
 
 socket.on('bot-reply', data => {
   let message
-  console.log(data)
   switch (data.reponseType) {
     case 'weather':
       const { type, temp, location } = data.message

@@ -8,7 +8,8 @@ require('dotenv').config()
 
 // API IMPORTS
 const weatherApi = require('./APIS/weatherApi')
-
+const newsApi = require('./APIS/newsApi')
+const moviesApi = require('./APIS/moviesApi')
 // EXPRESS CONFIGURATION
 app.use(express.static(path.join(__dirname, '/public')))
 
@@ -55,9 +56,10 @@ const createBotReply = (msg, type) => ({
 /**
  *
  * @param {Object} query Contains the required information about the user query
+ * @param {Object} userInfo current user info
+ * @param {SocketIO} socket instance of the socket connection
  */
 const getBotResponse = async (query, userInfo, socket) => {
-  console.log(query)
   switch (query.type) {
     case 'greeting': {
       return createBotReply(`Heyy there,${userInfo.name}`)
@@ -66,18 +68,22 @@ const getBotResponse = async (query, userInfo, socket) => {
       const weatherData = await weatherApi.getWeatherReport(query.data)
       return createBotReply(weatherData, query.type)
     }
+    case 'movies': {
+      const moviesData = await moviesApi.fetchTopMovies()
+      return createBotReply(moviesData, query.type)
+    }
+    case 'election': {
+      const newsData = await newsApi.getTopNews()
+      return createBotReply(newsData, query.data)
+    }
+    case 'changeName': {
+      botInfo.name = query.data.name
+      return socket.emit('bot-name-change', botInfo)
+    }
     case 'ipl':
       break
-    case 'election':
-      break
-    case 'changeName':
-      {
-        botInfo.name = query.data.name
-        return socket.emit('bot-name-change', botInfo)
-      }
-      break
     default:
-      break
+      return createBotReply(`Sorry, I didn't get it.`)
   }
 }
 

@@ -2,7 +2,6 @@
 const axios = require('axios')
 const weatherAxios = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5/weather',
-  headers: { 'X-Custom-Header': 'foobar' },
   params: {
     APPID: process.env.OPENWEATHER_KEY
   }
