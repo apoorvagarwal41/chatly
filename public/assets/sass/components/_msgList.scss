@@ -19,6 +19,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+
   .senderName,
   .timestamp {
     font-size: 1.2rem;
@@ -32,7 +33,7 @@
     display: block;
     background: rgb(235, 82, 82);
     color: white;
-    box-shadow: 0rem 0.7rem 2.5rem rgba($color: #000000, $alpha: 0.2);
+    box-shadow: 0rem 0.7rem 2.5rem rgba($color: #000000, $alpha: 0.3);
     transition: transform 0.3s ease;
     &:hover {
       transform: translateX(-1rem);
@@ -43,6 +44,22 @@
     > div {
       text-align: left;
       background: rgb(63, 105, 204);
+      &:hover {
+        transform: translateX(1rem);
+      }
+    }
+  }
+  &.bot {
+    justify-content: flex-start;
+    .senderName,
+    .timestamp {
+      font-size: 1.2rem;
+      color: #2f2f2f;
+    }
+    > div {
+      text-align: left;
+      background: rgb(231, 231, 231);
+      color: black;
       &:hover {
         transform: translateX(1rem);
       }

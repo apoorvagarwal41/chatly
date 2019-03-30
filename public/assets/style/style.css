@@ -59,9 +59,10 @@ body {
   .nav .status {
     display: none;
     padding: 1rem 2rem;
-    background: #013aa5;
+    background: #0348c8;
     font-size: 1.8rem;
-    border-radius: 1rem; }
+    border-radius: 1rem;
+    box-shadow: 0rem 0rem 2rem inset rgba(0, 0, 0, 0.3); }
     .nav .status:after {
       content: '';
       height: 1.5rem;
@@ -137,7 +138,7 @@ body {
     display: block;
     background: #eb5252;
     color: white;
-    box-shadow: 0rem 0.7rem 2.5rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0rem 0.7rem 2.5rem rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease; }
     .chat-msg > div:hover {
       transform: translateX(-1rem); }
@@ -148,6 +149,18 @@ body {
       background: #3f69cc; }
       .chat-msg.other > div:hover {
         transform: translateX(1rem); }
+  .chat-msg.bot {
+    justify-content: flex-start; }
+    .chat-msg.bot .senderName,
+    .chat-msg.bot .timestamp {
+      font-size: 1.2rem;
+      color: #2f2f2f; }
+    .chat-msg.bot > div {
+      text-align: left;
+      background: #e7e7e7;
+      color: black; }
+      .chat-msg.bot > div:hover {
+        transform: translateX(1rem); }
 
 .btn {
   display: inline-block;
@@ -156,7 +169,7 @@ body {
   border: none;
   outline: none;
   text-decoration: none;
-  background: #4ae67e;
+  background: #4ae6aa;
   font-size: 1.8rem;
   border-radius: 0.5rem;
   font-family: 'Montserrat', serif;

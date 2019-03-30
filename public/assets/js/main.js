@@ -1,5 +1,5 @@
 var socket = io()
-
+const botName = 'tiger'
 // =======================================
 // DOM CONSTANTS
 // =======================================
@@ -39,18 +39,21 @@ const scrollToBottom = () => {
 
 const sendMessage = msg => {
   const chatMsgEl = `<div class="chat-msg">
-          <div>
-            <div><span class="senderName">You</span></div>
-            ${msg}
-            <div><span class="timestamp">${moment().format(
-              'h:mm a'
-            )}</span></div>
-          </div>
-        </div>`
+  <div>
+  <div><span class="senderName">You</span></div>
+  ${msg}
+  <div><span class="timestamp">${moment().format('h:mm a')}</span></div>
+  </div>
+  </div>`
   msgList.append(chatMsgEl)
-  socket.emit('chat-message', msg)
   msgContainer.val('')
   scrollToBottom()
+  //RETURN IF THE REQUEST IS FOR THE BOT
+  if (msg.includes('tiger')) {
+    botRequest(msg)
+    return
+  }
+  socket.emit('chat-message', msg)
 }
 
 const receiveMessage = (msg, senderName, timestamp) => {
@@ -65,8 +68,15 @@ const receiveMessage = (msg, senderName, timestamp) => {
   scrollToBottom()
 }
 
-const addNotfication = msg => {
-  const notificationEl = `<div class="notificaiton">
+/**
+ *
+ * @param {String} msg
+ * @param {Boolean} botNotification
+ */
+const addNotfication = (msg, botNotification) => {
+  const notificationEl = `<div class="notificaiton ${
+    botNotification ? 'bot' : ''
+  }">
           <span>
             ${msg}
           </span>
@@ -75,10 +85,65 @@ const addNotfication = msg => {
   scrollToBottom()
 }
 
+// ================================
+// BOT CONFIGUARATION FUNCTIONS
+// ================================
+const queryCheckers = {
+  weather: msg => msg.includes('weather') || msg.includes('temperature'),
+  ipl: msg => msg.includes('ipl') || msg.includes('temperature'),
+  election: msg => msg.includes('election') || msg.includes('lok'),
+  changeName: msg => msg.includes('call you') || msg.includes('change name'),
+  greeting: msg =>
+    msg.includes('hey') || msg.includes('hello') || msg.includes('hi')
+}
+
+const botRequest = msg => {
+  let queryType
+  //CALCULATING QUERY TYPE
+  for (var key in queryCheckers) {
+    const match = queryCheckers[key](msg)
+    if (match) {
+      queryType = key
+      break
+    }
+  }
+  // FOR WEATHER QUERY
+  if (queryType == 'weather' && navigator.geolocation) {
+    // FETCHING LOCATION
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { longitude, latitude } }) => {
+        console.log(latitude, longitude)
+        socket.emit('bot-request', {
+          type: queryType,
+          data: {
+            lat: latitude,
+            long: longitude
+          }
+        })
+      }
+    )
+    return
+  }
+  socket.emit('bot-request', {
+    type: queryType
+  })
+}
+
+const receiveFromBot = (msg, senderName, timestamp) => {
+  const chatMsgEl = `<div class="chat-msg bot">
+          <div>
+            <div><span class="senderName">${senderName}</span></div>
+            ${msg}
+            <div><span class="timestamp">${timestamp}</span></div>
+          </div>
+        </div>`
+  msgList.append(chatMsgEl)
+  scrollToBottom()
+}
+
 // =======================================
 // DOM LISTENERS
 // =======================================
-
 msgContainer.keyup(function(e) {
   if (e.keyCode == 13) {
     const msg = $(this).val()
@@ -120,7 +185,6 @@ $('#reconnectBtn').click(function(e) {
 // =======================================
 // SOCKET LISTENERS
 // =======================================
-
 socket.on('reply', data => {
   receiveMessage(data.message, data.userInfo.name, data.timestamp)
 })
@@ -131,4 +195,28 @@ socket.on('new-connection', data => {
 
 socket.on('user-disconnect', data => {
   addNotfication(`${data.name} has left the chat`)
+})
+
+socket.on('bot-reply', data => {
+  let message
+  console.log(data)
+  switch (data.reponseType) {
+    case 'weather':
+      const { type, temp, location } = data.message
+      message = `In ${location}, <br> It's ${temp} &#176 C , ${type}`
+      break
+
+    default:
+      message = data.message
+      break
+  }
+  receiveFromBot(message, data.userInfo.name, data.timestamp)
+})
+
+socket.on('bot-name-change', botData => {
+  botName = botData.name
+})
+
+socket.on('disconnect', () => {
+  socket.open()
 })

@@ -14,9 +14,10 @@
   .status {
     display: none;
     padding: 1rem 2rem;
-    background: rgb(1, 58, 165);
+    background: rgb(3, 72, 200);
     font-size: 1.8rem;
     border-radius: 1rem;
+    box-shadow: 0rem 0rem 2rem inset rgba(0, 0, 0, 0.3);
     &:after {
       content: '';
       height: 1.5rem;
