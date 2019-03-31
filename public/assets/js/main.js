@@ -255,6 +255,6 @@ socket.on('bot-name-change', botData => {
   botName = botData.name
 })
 
-socket.on('disconnect', () => {
-  socket.open()
-})
+// socket.on('disconnect', () => {
+//   socket.open()
+// })
