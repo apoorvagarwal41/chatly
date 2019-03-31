@@ -26,6 +26,7 @@
     color: #dddddd;
   }
   > div {
+    max-width: 70%;
     font-size: 1.6rem;
     padding: 0.6rem 1.5rem;
     border-radius: 1.5rem;
@@ -37,6 +38,13 @@
     transition: transform 0.3s ease;
     &:hover {
       transform: translateX(-1rem);
+    }
+    ul,
+    ol {
+      padding: 1.5rem;
+      li {
+        margin-bottom: 1rem;
+      }
     }
   }
   &.other {

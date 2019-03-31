@@ -4,6 +4,7 @@ const botName = 'tiger'
 // =======================================
 // DOM CONSTANTS
 // =======================================
+
 const sendButton = document.querySelector('#sendButton')
 const msgContainer = $('#messageInput')
 const msgList = $('.message-list')
@@ -13,6 +14,7 @@ const changeInfoModal = document.querySelector('uc-modal')
 // =======================================
 // UTILITY FUNCTIONS
 // =======================================
+
 const changeStatus = connectToServer => {
   const name = $('uc-modal input').val()
   const statusEl = $('.status')
@@ -20,7 +22,7 @@ const changeStatus = connectToServer => {
     if (!socket.connected) {
       socket.open()
     }
-    socket.emit('user-info', { name })
+    socket.emit('set-user-info', { name })
     statusEl.text(name)
     statusEl.css('display', 'block')
     statusEl.removeClass('disconnected')
@@ -90,12 +92,13 @@ const addNotfication = (msg, botNotification) => {
 // ================================
 // BOT CONFIGUARATION FUNCTIONS
 // ================================
+
 const queryCheckers = {
   weather: msg => msg.includes('weather') || msg.includes('temperature'),
-  ipl: msg => msg.includes('ipl') || msg.includes('temperature'),
-  election: msg => msg.includes('election') || msg.includes('lok'),
-  changeName: msg => msg.includes('call you') || msg.includes('change name'),
-  movies: msg => msg.includes('movies'),
+  ipl: msg => msg.includes('ipl') || msg.includes('score'),
+  news: msg => msg.includes('latest news') || msg.includes('news'),
+  changeName: msg => msg.includes('call you') || msg.includes('name'),
+  movies: msg => msg.includes('movies') || msg.includes('movie'),
   greeting: msg =>
     msg.includes('hey') || msg.includes('hello') || msg.includes('hi')
 }
@@ -112,7 +115,7 @@ const botRequest = msg => {
     }
   }
 
-  // FOR WEATHER QUERY
+  // FOR WEATHER QUERY WE NEED TO SEND THE GEO-LOCATION CO-ORDINATES
   if (queryType == 'weather' && navigator.geolocation) {
     // FETCHING LOCATION
     navigator.geolocation.getCurrentPosition(
@@ -149,6 +152,7 @@ const receiveFromBot = (msg, senderName, timestamp) => {
 // =======================================
 // DOM LISTENERS
 // =======================================
+
 msgContainer.keyup(function(e) {
   if (e.keyCode == 13) {
     const msg = $(this).val()
@@ -190,6 +194,7 @@ $('#reconnectBtn').click(function(e) {
 // =======================================
 // SOCKET LISTENERS
 // =======================================
+
 socket.on('reply', data => {
   receiveMessage(data.message, data.userInfo.name, data.timestamp)
 })
@@ -204,12 +209,41 @@ socket.on('user-disconnect', data => {
 
 socket.on('bot-reply', data => {
   let message
+  console.log(data)
   switch (data.reponseType) {
     case 'weather':
       const { type, temp, location } = data.message
       message = `In ${location}, <br> It's ${temp} &#176 C , ${type}`
       break
-
+    case 'news': {
+      const newsList = document.createElement('ul')
+      for (var movie of data.message) {
+        const newsListItem = document.createElement('li')
+        newsListItem.textContent = movie.title
+        newsList.appendChild(newsListItem)
+      }
+      message = `
+      <p>Top Headlines for today :  </p>
+      <ol>
+        ${newsList.innerHTML}
+      </ol>`
+      break
+    }
+    case 'movies': {
+      const movieList = document.createElement('ul')
+      for (var movie of data.message) {
+        const movieListItem = document.createElement('li')
+        movieListItem.textContent = `${movie.title} - ${movie.vote_average}`
+        movieList.appendChild(movieListItem)
+      }
+      message = `      
+      <p>Here are some recommendation,</p>
+      <ul>
+        ${movieList.innerHTML}
+      </ul>`
+      break
+      break
+    }
     default:
       message = data.message
       break

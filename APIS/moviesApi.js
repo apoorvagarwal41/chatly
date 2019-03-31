@@ -11,8 +11,10 @@ const moviesAxios = axios.create({
 exports.fetchTopMovies = async () => {
   const movieData = await moviesAxios({
     methods: 'get'
-  }).then(res => res.data)
-  return movieData
+  })
+    .then(res => res.data.results)
+    .catch(res => console.log(res))
+  return movieData.slice(0, 5)
 }
 
 module.exports = exports

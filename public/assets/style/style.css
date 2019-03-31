@@ -131,6 +131,7 @@ body {
     font-size: 1.2rem;
     color: #dddddd; }
   .chat-msg > div {
+    max-width: 70%;
     font-size: 1.6rem;
     padding: 0.6rem 1.5rem;
     border-radius: 1.5rem;
@@ -142,6 +143,12 @@ body {
     transition: transform 0.3s ease; }
     .chat-msg > div:hover {
       transform: translateX(-1rem); }
+    .chat-msg > div ul,
+    .chat-msg > div ol {
+      padding: 1.5rem; }
+      .chat-msg > div ul li,
+      .chat-msg > div ol li {
+        margin-bottom: 1rem; }
   .chat-msg.other {
     justify-content: flex-start; }
     .chat-msg.other > div {

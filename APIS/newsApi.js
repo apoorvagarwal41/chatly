@@ -11,9 +11,9 @@ exports.getTopNews = async query => {
   const topNews = await newsAxios({
     method: 'get'
   })
-    .then(res => res.data)
+    .then(res => res.data.articles)
     .catch(res => console.log(res))
-  return topNews
+  return topNews.slice(0, 5)
 }
 
 module.exports = exports
