@@ -52,7 +52,7 @@ const sendMessage = msg => {
   msgContainer.val('')
   scrollToBottom()
   //RETURN IF THE REQUEST IS FOR THE BOT
-  if (msg.includes('tiger')) {
+  if (msg.includes(botName)) {
     botRequest(msg)
     return
   }
@@ -78,13 +78,12 @@ const receiveMessage = (msg, senderName, timestamp) => {
  * @param {Boolean} botNotification
  */
 const addNotfication = (msg, botNotification) => {
-  const notificationEl = `<div class="notificaiton ${
-    botNotification ? 'bot' : ''
-  }">
-          <span>
-            ${msg}
-          </span>
-          </div>`
+  const notificationEl = `
+    <div class="notificaiton ${botNotification ? 'bot' : ''}">
+      <span>
+        ${msg}
+      </span>
+    </div>`
   msgList.append(notificationEl)
   scrollToBottom()
 }
@@ -137,10 +136,10 @@ const botRequest = msg => {
   })
 }
 
-const receiveFromBot = (msg, senderName, timestamp) => {
+const receiveFromBot = (msg, botName, timestamp) => {
   const chatMsgEl = `<div class="chat-msg bot">
           <div>
-            <div><span class="senderName">${senderName}</span></div>
+            <div><span class="senderName">${botName}</span></div>
             ${msg}
             <div><span class="timestamp">${timestamp}</span></div>
           </div>
@@ -242,6 +241,12 @@ socket.on('bot-reply', data => {
         ${movieList.innerHTML}
       </ul>`
       break
+    }
+    case 'ipl': {
+      message = `
+        <p>Here you are,</p>
+        <h2>${data.message.teams}</h2>
+        <p>${data.message.score}</p>`
       break
     }
     default:

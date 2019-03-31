@@ -3,7 +3,7 @@ class Modal extends HTMLElement {
     super()
     this.attachShadow({ mode: 'open' })
     this._modalOpen = false
-    this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = `    
     <style>
       :host {
         display: block;
@@ -32,7 +32,7 @@ class Modal extends HTMLElement {
         z-index: -1;
         background: rgba(0, 0, 0, 0.513);
       }
-      .modal-box{
+      .modal-box {
         position: absolute;
         left: 50%;
         top: 20%;
@@ -54,7 +54,7 @@ class Modal extends HTMLElement {
         font-size: 2rem;
       }
 
-      ::slotted(#title){
+      ::slotted(#title) {
         color: white;
         font-size: 2rem;
       }
@@ -64,18 +64,18 @@ class Modal extends HTMLElement {
         background: #fff;
       }
       .modal-box--actions {
-        background: rgb(221, 221, 221);
+        background: #ddd;
         padding: 1rem;
         display: flex;
         justify-content: flex-end;
       }
     </style>
     <div class="modal-wrapper">
-        <div class="modal-overlay"></div>
-        <div class="modal-box">
-          <div class="modal-box--header">
-            <slot name="title"><h1>Please Confirm</h1></slot>
-          </div>
+      <div class="modal-overlay"></div>
+      <div class="modal-box">
+        <div class="modal-box--header">
+          <slot name="title"><h1>Please Confirm</h1></slot>
+        </div>
         <div class="modal-box--content">
           <slot></slot>
         </div>
@@ -87,7 +87,7 @@ class Modal extends HTMLElement {
         </div>
       </div>
     </div>
-    `
+`
   }
 
   static get observedAttributes() {
@@ -96,7 +96,6 @@ class Modal extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (newVal === oldVal) {
-      console.log('new value is equal to the old value')
       return
     }
     if (name === 'opened') {
@@ -133,16 +132,14 @@ class Modal extends HTMLElement {
       this.onComplete()
     }
     this._close()
-    // WE NEED TO SET BUBBLES AND COMPOSED BOTH TO TRUE TO MAKE THE EVENT BUBBLE UP THE DOM TREE AND COMPOSED FOR ALLOWING THE EVENT TO ESCAPE THE SHADOW DOM TO THE LIGHT DOM
     const acceptEvent = new Event('accept', { bubbles: true, composed: true })
-    // e.target.dispatchEvent(acceptEvent)
     this.dispatchEvent(acceptEvent)
   }
 
   decline(e) {
     this._close()
     const declineEvent = new Event('decline', { bubbles: true, composed: true })
-    // AN ALTERNATIVE TO USING BUBBLES AND COMPOSED BUT IN THIS APPROACH WE DO NOT HAVE THE ABILITY TO MAKE THE EVENT BUBBLE UP THE DOM TREE
+
     this.dispatchEvent(declineEvent)
   }
 

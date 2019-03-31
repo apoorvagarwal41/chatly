@@ -5,6 +5,7 @@ const moment = require('moment')
 const weatherApi = require('../APIS/weatherApi')
 const newsApi = require('../APIS/newsApi')
 const moviesApi = require('../APIS/moviesApi')
+const iplApi = require('../APIS/iplApi')
 
 // =========================
 // UTILITY FUNCTIONS
@@ -56,8 +57,10 @@ const getBotResponse = async (query, userInfo, socket) => {
       botInfo.name = 'BOT-' + query.data.name.toUpperCase()
       return socket.emit('bot-name-change', botInfo)
     }
-    case 'ipl':
-      break
+    case 'ipl': {
+      const scoreData = await iplApi.fetchScore()
+      return createBotReply(scoreData, query.type)
+    }
     default:
       return createBotReply(`Sorry ${userInfo.name}, I didn't get it.`)
   }
