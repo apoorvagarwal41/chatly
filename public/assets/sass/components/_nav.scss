@@ -14,7 +14,7 @@
   .status {
     display: none;
     padding: 1rem 2rem;
-    background: rgb(3, 72, 200);
+    background: #0348c8;
     font-size: 1.8rem;
     border-radius: 1rem;
     box-shadow: 0rem 0rem 2rem inset rgba(0, 0, 0, 0.3);
@@ -23,13 +23,13 @@
       height: 1.5rem;
       width: 1.5rem;
       border-radius: 50%;
-      background: rgb(8, 207, 101);
+      background: #08cf65;
       display: inline-block;
       margin-left: 1.5rem;
       font-family: inherit;
     }
     &.disconnected:after {
-      background: rgb(195, 51, 38);
+      background: #c33326;
     }
   }
 }

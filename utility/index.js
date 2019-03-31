@@ -10,10 +10,18 @@ const moviesApi = require('../APIS/moviesApi')
 // UTILITY FUNCTIONS
 // =========================
 
+/**
+ * Object which contains the bot information.
+ */
 const botInfo = {
   name: 'BOT-TIGER'
 }
 
+/**
+ *
+ * @param {any} msg Contains the response from the bot
+ * @param {String} type Contains the response type
+ */
 const createBotReply = (msg, type) => ({
   message: msg,
   userInfo: botInfo,
@@ -25,7 +33,7 @@ const createBotReply = (msg, type) => ({
  *
  * @param {Object} query Contains the required information about the user query
  * @param {Object} userInfo current user info
- * @param {SocketIO.Socket} socket instance of the socket connection
+ * @param {SocketIO.Socket} socket instance of the active socket connection
  */
 const getBotResponse = async (query, userInfo, socket) => {
   switch (query.type) {

@@ -32,7 +32,7 @@
     border-radius: 1.5rem;
     text-align: right;
     display: block;
-    background: rgb(235, 82, 82);
+    background: #eb5252;
     color: white;
     box-shadow: 0rem 0.7rem 2.5rem rgba($color: #000000, $alpha: 0.3);
     transition: transform 0.3s ease;
@@ -51,7 +51,7 @@
     justify-content: flex-start;
     > div {
       text-align: left;
-      background: rgb(63, 105, 204);
+      background: #3f69cc;
       &:hover {
         transform: translateX(1rem);
       }
@@ -66,7 +66,7 @@
     }
     > div {
       text-align: left;
-      background: rgb(231, 231, 231);
+      background: #e7e7e7;
       color: black;
       &:hover {
         transform: translateX(1rem);
