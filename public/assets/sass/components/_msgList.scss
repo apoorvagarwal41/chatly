@@ -62,12 +62,12 @@
     .senderName,
     .timestamp {
       font-size: 1.2rem;
-      color: #2f2f2f;
+      color: #cfcfcf;
     }
     > div {
       text-align: left;
-      background: #f3f3f3;
-      color: black;
+      background: #0348c8;
+      color: rgb(235, 235, 235);
       &:hover {
         transform: translateX(1rem);
       }
