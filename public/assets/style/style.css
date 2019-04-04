@@ -233,7 +233,7 @@ body {
     .message-list .notificaiton span {
       padding: 1rem 2rem;
       font-size: 1.6rem;
-      background: #e1e1e1;
+      background: #ececec;
       color: black;
       border-radius: 2rem;
       box-shadow: 0rem 0.2rem 2.5rem rgba(0, 0, 0, 0.3); }

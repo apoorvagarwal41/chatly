@@ -252,7 +252,7 @@ socket.on('bot-reply', data => {
     case 'ipl': {
       message = `
         <p>Here you are,</p>
-        <h2>${data.message.teams}</h2>
+        <h3>${data.message.teams}</h3>
         <p>${data.message.score}</p>`
       break
     }
