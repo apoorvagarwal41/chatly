@@ -5,7 +5,7 @@
   padding-top: 5rem;
   z-index: 10000000;
   right: 2rem;
-  bottom: 2rem;
+  bottom: 8rem;
   display: flex;
   background: #f4f4f4;
   overflow: hidden;
@@ -28,7 +28,7 @@
     height: 3.5rem;
     left: 0;
     top: 0;
-    background: linear-gradient(to right, #00bcd4, #00e676, #ec407a);
+    background: linear-gradient(to right, #0040d4, #00bcd4);
     position: absolute;
     z-index: -1;
   }
@@ -37,7 +37,7 @@
     display: flex;
     align-items: center;
 
-    >img {
+    > img {
       display: block;
       width: 4rem;
     }

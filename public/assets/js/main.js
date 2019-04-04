@@ -15,6 +15,10 @@ const changeInfoModal = document.querySelector('uc-modal')
 // UTILITY FUNCTIONS
 // =======================================
 
+/**
+ *
+ * @param {Boolean} connectToServer True for establishing a connection to the server and false to disconnect from the server
+ */
 const changeStatus = connectToServer => {
   const name = $('uc-modal input').val()
   const statusEl = $('.status')
@@ -31,6 +35,7 @@ const changeStatus = connectToServer => {
   } else {
     statusEl.addClass('disconnected')
     $('#disconnectBtn').css('display', 'none')
+    $('#reconnectBtn').css('display', 'block')
   }
 }
 
@@ -103,8 +108,10 @@ const queryCheckers = {
 }
 
 const botRequest = msg => {
+  showLoader()
+  scrollToBottom()
   let queryType
-
+  msg = msg.toLowerCase()
   //CALCULATING QUERY TYPE
   for (var key in queryCheckers) {
     const match = queryCheckers[key](msg)
@@ -146,6 +153,7 @@ const receiveFromBot = (msg, botName, timestamp) => {
         </div>`
   msgList.append(chatMsgEl)
   scrollToBottom()
+  hideLoader()
 }
 
 // =======================================
@@ -182,7 +190,6 @@ changeInfoModal.addEventListener('accept', function(e) {
 
 $('#disconnectBtn').click(function(e) {
   socket.close()
-  $('#reconnectBtn').css('display', 'block')
   changeStatus(false)
 })
 
@@ -260,6 +267,6 @@ socket.on('bot-name-change', botData => {
   botName = botData.name
 })
 
-// socket.on('disconnect', () => {
-//   socket.open()
-// })
+socket.on('disconnect', () => {
+  changeStatus(false)
+})

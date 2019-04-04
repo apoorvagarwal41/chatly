@@ -84,6 +84,122 @@ body {
   outline: none;
   border: 1px solid #0277bd; }
 
+.notification-panel {
+  position: fixed;
+  width: 25%;
+  padding: 2rem;
+  padding-top: 5rem;
+  z-index: 10000000;
+  right: 2rem;
+  bottom: 8rem;
+  display: flex;
+  background: #f4f4f4;
+  overflow: hidden;
+  border-radius: 2rem;
+  box-shadow: 0rem 0.7rem 3rem rgba(0, 0, 0, 0.3);
+  align-items: center; }
+  @media (max-width: 700px) {
+    .notification-panel {
+      width: 100%;
+      bottom: 0;
+      right: 0;
+      border-radius: 0;
+      padding: 3rem;
+      padding-top: 6rem; } }
+  .notification-panel:after {
+    content: '';
+    width: 100%;
+    height: 3.5rem;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to right, #0040d4, #00bcd4);
+    position: absolute;
+    z-index: -1; }
+  .notification-panel__icon {
+    display: flex;
+    align-items: center; }
+    .notification-panel__icon > img {
+      display: block;
+      width: 4rem; }
+  .notification-panel__content {
+    flex: 1;
+    font-size: 1.8rem;
+    margin-left: 1rem; }
+
+.loader {
+  position: relative;
+  width: 4rem;
+  z-index: 0;
+  animation: rotate 2s infinite; }
+  .loader:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 2.5rem;
+    width: 2.5rem;
+    z-index: 2;
+    box-shadow: 0rem 0.7rem 2.5rem rgba(0, 0, 0, 0.3);
+    background: #7719b6;
+    border-radius: 50%;
+    animation: scale 2s infinite; }
+  .loader-dot {
+    position: absolute;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0rem 0.7rem 2.5rem rgba(0, 0, 0, 0.3); }
+    .loader-dot:nth-child(1) {
+      left: 0%;
+      background: #1943b6;
+      animation: leftDot 2s infinite; }
+    .loader-dot:nth-child(2) {
+      left: 50%;
+      background: #1962b6; }
+    .loader-dot:nth-child(3) {
+      left: 100%;
+      background: #1991b6;
+      animation: rightDot 2s infinite; }
+
+@keyframes leftDot {
+  0% {
+    left: 50%; }
+  20% {
+    left: 0; }
+  80% {
+    left: 0; }
+  100% {
+    left: 50%; } }
+@keyframes rightDot {
+  0% {
+    left: 50%; }
+  20% {
+    left: 100%; }
+  80% {
+    left: 100%; }
+  100% {
+    left: 50%; } }
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg); }
+  20% {
+    transform: rotate(0deg); }
+  80% {
+    transform: rotate(90deg); }
+  100% {
+    transform: rotate(90deg); } }
+@keyframes scale {
+  0% {
+    transform: translate(-50%, -50%) scale(1); }
+  30% {
+    transform: translate(-50%, -50%) scale(0); }
+  70% {
+    transform: translate(-50%, -50%) scale(0); }
+  100% {
+    transform: translate(-50%, -50%) scale(1); } }
 .message-bar {
   display: flex;
   padding: 1rem;
@@ -164,7 +280,7 @@ body {
       color: #2f2f2f; }
     .chat-msg.bot > div {
       text-align: left;
-      background: #e7e7e7;
+      background: #f3f3f3;
       color: black; }
       .chat-msg.bot > div:hover {
         transform: translateX(1rem); }
