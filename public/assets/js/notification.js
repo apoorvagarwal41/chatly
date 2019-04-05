@@ -1,9 +1,9 @@
 window.addEventListener('offline', () => {
-  showNotification("Seems like you don't have a internet connection.")
+  showNotification("Seems like you don't have a internet connection.", 'sad')
 })
 
 window.addEventListener('online', () => {
-  showNotification('Yay! You are back online.')
+  showNotification('Yay! You are back online.', 'happy')
 })
 
 /**
@@ -16,11 +16,16 @@ const setNotificationText = (notificationEl, content) => {
     '.notification-panel__content'
   ).textContent = content
 }
+const setNotificationIcon = (notificationEl, type) => {
+  const icon = type === 'happy' ? '😊' : '😢'
+  notificationEl.querySelector('.notification-panel__icon').textContent = icon
+}
 
-const showNotification = msg => {
+const showNotification = (msg, type) => {
   const notificationPanel = document.querySelector('.notification-panel')
   notificationPanel.style.display = 'flex'
   setNotificationText(notificationPanel, msg)
+  setNotificationIcon(notificationPanel, type)
   requestAnimationFrame(() => slideIn(notificationPanel))
 }
 

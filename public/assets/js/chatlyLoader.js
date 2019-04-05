@@ -4,7 +4,7 @@ const fadeIn = el => {
   }
   const fadeInAnim = el.animate([{ opacity: 0 }, { opacity: 1 }], {
     fill: 'both',
-    duration: 1000
+    duration: 800
   })
 }
 
@@ -13,7 +13,7 @@ const fadeOut = (el, cb) => {
     fill: 'both',
     duration: 400
   })
-  fadeOutAnim.onfinish = cb()
+  fadeOutAnim.onfinish = cb
 }
 
 const loaderEl = () => {
