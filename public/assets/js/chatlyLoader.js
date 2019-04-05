@@ -8,14 +8,12 @@ const fadeIn = el => {
   })
 }
 
-const fadeOut = el => {
+const fadeOut = (el, cb) => {
   const fadeOutAnim = el.animate([{ opacity: 1 }, { opacity: 0 }], {
     fill: 'both',
     duration: 400
   })
-  fadeOutAnim.onfinish = () => {
-    el.style.display = 'none'
-  }
+  fadeOutAnim.onfinish = cb()
 }
 
 const loaderEl = () => {
@@ -31,8 +29,16 @@ const loaderEl = () => {
 
 const showLoader = () => {
   $('.message-list').append(loaderEl)
+  const loaderContainer = document.querySelector('#loaderContainer')
+  fadeIn(loaderContainer)
 }
 
 const hideLoader = () => {
-  $('#loaderContainer').remove()
+  const loaderContainer = document.querySelector('#loaderContainer')
+  if (!loaderContainer) {
+    return
+  }
+  fadeOut(loaderContainer, () => {
+    $('#loaderContainer').remove()
+  })
 }
